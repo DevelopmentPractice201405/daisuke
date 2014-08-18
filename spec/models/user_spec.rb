@@ -27,8 +27,20 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:admin) }
+  it { should respond_to(:authenticate) }
 
   it { should be_valid }
+  it { should_not be_admin }
+
+  describe "with admin attribute set to 'true'" do
+    before do
+      @user.save!
+      @user.toggle!(:admin)
+    end
+
+    it { should be_admin }
+  end
 
 # list 6.11
   describe "when name is not present" do
@@ -80,7 +92,7 @@ describe User do
     end
 
     it { should_not be_valid }
-    end
+  end
 
 # list 628
   describe "when password is not present" do
@@ -124,4 +136,4 @@ describe User do
     its(:remember_token) { should_not be_blank }
     end
   end
-  end
+end
